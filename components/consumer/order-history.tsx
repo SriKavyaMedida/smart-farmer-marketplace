@@ -3,8 +3,13 @@
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, Clock, Truck } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
 
 export default function OrderHistory() {
+  const { language } = useLanguage()
+  const t = (key: string) => getTranslation(language, key)
+
   const orders = [
     {
       id: "ORD-001",
@@ -43,9 +48,20 @@ export default function OrderHistory() {
     }
   }
 
+  const getStatusTranslation = (status: string) => {
+    switch (status) {
+      case "Delivered":
+        return t("orders.delivered")
+      case "In Transit":
+        return t("orders.inTransit")
+      default:
+        return t("orders.pending")
+    }
+  }
+
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900">Order History</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("orders.title")}</h2>
 
       <div className="space-y-4">
         {orders.map((order) => (
@@ -67,22 +83,22 @@ export default function OrderHistory() {
                         : "bg-amber-600"
                   }
                 >
-                  {order.status}
+                  {getStatusTranslation(order.status)}
                 </Badge>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Crops</p>
+                <p className="text-sm text-gray-600 mb-1">{t("orders.crops")}</p>
                 <p className="font-medium text-gray-900">{order.crops}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total Amount</p>
+                <p className="text-sm text-gray-600 mb-1">{t("orders.totalAmount")}</p>
                 <p className="font-bold text-emerald-600">{order.total}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-600 mb-1">Expected Delivery</p>
+                <p className="text-sm text-gray-600 mb-1">{t("orders.expectedDelivery")}</p>
                 <p className="font-medium text-gray-900">{order.deliveryDate}</p>
               </div>
             </div>

@@ -2,8 +2,13 @@
 
 import { Card } from "@/components/ui/card"
 import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
 
 export default function ConsumerAnalytics() {
+  const { language } = useLanguage()
+  const t = (key: string) => getTranslation(language, key)
+
   const orderByCrop = [
     { name: "Wheat", value: 45 },
     { name: "Rice", value: 30 },
@@ -21,31 +26,31 @@ export default function ConsumerAnalytics() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900">Analytics</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("consumerAnalytics.title")}</h2>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6 border-0 shadow-md">
-          <p className="text-sm text-gray-600 mb-2">Total Spent</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.totalSpent")}</p>
           <p className="text-3xl font-bold text-emerald-600">₹2,22,000</p>
-          <p className="text-xs text-gray-500 mt-2">Last 6 months</p>
+          <p className="text-xs text-gray-500 mt-2">{t("analytics.lastSixMonths")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md">
-          <p className="text-sm text-gray-600 mb-2">Total Orders</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.totalOrders")}</p>
           <p className="text-3xl font-bold text-blue-600">24</p>
-          <p className="text-xs text-gray-500 mt-2">Completed orders</p>
+          <p className="text-xs text-gray-500 mt-2">{t("consumerAnalytics.completedOrders")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md">
-          <p className="text-sm text-gray-600 mb-2">Avg Order Value</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.avgOrderValue")}</p>
           <p className="text-3xl font-bold text-amber-600">₹9,250</p>
-          <p className="text-xs text-gray-500 mt-2">Per transaction</p>
+          <p className="text-xs text-gray-500 mt-2">{t("consumerAnalytics.perTransaction")}</p>
         </Card>
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6 border-0 shadow-md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Orders by Crop Type</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("consumerAnalytics.ordersByCrop")}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -68,7 +73,7 @@ export default function ConsumerAnalytics() {
         </Card>
 
         <Card className="p-6 border-0 shadow-md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Spending by Season</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("consumerAnalytics.spendingBySeason")}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={spendingBySeason}>
               <CartesianGrid strokeDasharray="3 3" />

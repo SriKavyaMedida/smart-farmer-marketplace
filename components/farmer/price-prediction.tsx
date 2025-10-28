@@ -8,8 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { TrendingUp } from "lucide-react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { useLanguage } from "@/lib/language-context"
 
 export default function PricePrediction() {
+  const { t } = useLanguage()
+
   const [formData, setFormData] = useState({
     cropType: "",
     region: "",
@@ -46,59 +49,59 @@ export default function PricePrediction() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900">Price Prediction Tool</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("prediction.title")}</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input Form */}
         <Card className="p-6 border-0 shadow-md lg:col-span-1">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Predict Price</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("prediction.predictPrice")}</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Crop Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("prediction.cropType")}</label>
               <select
                 name="cropType"
                 value={formData.cropType ?? ""}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
               >
-                <option value="">Select crop</option>
-                <option value="wheat">Wheat</option>
-                <option value="rice">Rice</option>
-                <option value="cotton">Cotton</option>
+                <option value="">{t("prediction.selectCrop")}</option>
+                <option value="wheat">{t("addCrop.wheat")}</option>
+                <option value="rice">{t("addCrop.rice")}</option>
+                <option value="cotton">{t("addCrop.cotton")}</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Region</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("prediction.region")}</label>
               <Input
                 type="text"
                 name="region"
-                placeholder="e.g., Punjab"
+                placeholder={t("prediction.regionPlaceholder")}
                 value={formData.region ?? ""}
                 onChange={handleChange}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Season</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("prediction.season")}</label>
               <select
                 name="season"
                 value={formData.season ?? ""}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
               >
-                <option value="">Select season</option>
-                <option value="kharif">Kharif</option>
-                <option value="rabi">Rabi</option>
+                <option value="">{t("prediction.selectSeason")}</option>
+                <option value="kharif">{t("addCrop.kharif")}</option>
+                <option value="rabi">{t("addCrop.rabi")}</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Quantity (quintals)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("prediction.quantity")}</label>
               <Input
                 type="number"
                 name="quantity"
-                placeholder="e.g., 500"
+                placeholder={t("prediction.quantityPlaceholder")}
                 value={formData.quantity ?? ""}
                 onChange={handleChange}
               />
@@ -109,7 +112,7 @@ export default function PricePrediction() {
               disabled={loading}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2"
             >
-              {loading ? "Analyzing market data..." : "Predict Price"}
+              {loading ? t("prediction.analyzing") : t("prediction.predictButton")}
             </Button>
           </div>
         </Card>
@@ -117,18 +120,18 @@ export default function PricePrediction() {
         {/* Prediction Results */}
         {prediction && (
           <Card className="p-6 border-0 shadow-md lg:col-span-2">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Prediction Results</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("prediction.results")}</h3>
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-emerald-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-600 mb-1">Predicted Price</p>
+                <p className="text-sm text-gray-600 mb-1">{t("prediction.predictedPrice")}</p>
                 <p className="text-2xl font-bold text-emerald-600">{prediction.predictedPrice}</p>
               </div>
               <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-600 mb-1">Confidence</p>
+                <p className="text-sm text-gray-600 mb-1">{t("prediction.confidence")}</p>
                 <p className="text-2xl font-bold text-blue-600">{prediction.confidence}</p>
               </div>
               <div className="bg-amber-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-600 mb-1">Market Trend</p>
+                <p className="text-sm text-gray-600 mb-1">{t("prediction.marketTrend")}</p>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-6 h-6 text-amber-600" />
                   <p className="text-lg font-bold text-amber-600">{prediction.trend}</p>
@@ -137,7 +140,7 @@ export default function PricePrediction() {
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm font-medium text-gray-700 mb-4">Historical vs Predicted Price Trend</p>
+              <p className="text-sm font-medium text-gray-700 mb-4">{t("prediction.historicalVsPredicted")}</p>
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={prediction.historicalData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -145,8 +148,8 @@ export default function PricePrediction() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="historical" fill="#10b981" name="Historical" />
-                  <Bar dataKey="predicted" fill="#3b82f6" name="Predicted" />
+                  <Bar dataKey="historical" fill="#10b981" name={t("prediction.historical")} />
+                  <Bar dataKey="predicted" fill="#3b82f6" name={t("prediction.predicted")} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

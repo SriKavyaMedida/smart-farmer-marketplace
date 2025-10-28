@@ -5,15 +5,21 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Leaf } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 interface LoginPageProps {
   onLogin: (role: "farmer" | "consumer") => void
 }
 
 export default function LoginPage({ onLogin }: LoginPageProps) {
+  const { language } = useLanguage()
+  const t = (key: string) => getTranslation(language, key)
+
   const [activeTab, setActiveTab] = useState<"farmer" | "consumer">("farmer")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
   const [showSignup, setShowSignup] = useState(false)
 
   const handleLogin = () => {
@@ -26,12 +32,16 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
       <Card className="w-full max-w-md shadow-lg border-0">
         <div className="p-8">
           {/* Header */}
           <div className="flex items-center justify-center gap-2 mb-8">
             <Leaf className="w-8 h-8 text-emerald-600" />
-            <h1 className="text-2xl font-bold text-emerald-900">Smart Farmer</h1>
+            <h1 className="text-2xl font-bold text-emerald-900">{t("login.title")}</h1>
           </div>
 
           {/* Tabs */}
@@ -42,7 +52,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 activeTab === "farmer" ? "bg-emerald-600 text-white" : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              Farmer
+              {t("login.farmer")}
             </button>
             <button
               onClick={() => setActiveTab("consumer")}
@@ -50,7 +60,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 activeTab === "consumer" ? "bg-emerald-600 text-white" : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              Consumer
+              {t("login.consumer")}
             </button>
           </div>
 
@@ -58,20 +68,20 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
           {!showSignup ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.email")}</label>
                 <Input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t("login.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.password")}</label>
                 <Input
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t("login.passwordPlaceholder")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full"
@@ -81,38 +91,38 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 onClick={handleLogin}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2"
               >
-                Login
+                {t("login.loginButton")}
               </Button>
               <button
                 onClick={() => setShowSignup(true)}
                 className="w-full text-emerald-600 hover:text-emerald-700 font-medium text-sm"
               >
-                Don't have an account? Sign up
+                {t("login.signupLink")}
               </button>
             </div>
           ) : (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                <Input type="text" placeholder="Your name" className="w-full" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.fullName")}</label>
+                <Input type="text" placeholder={t("login.fullNamePlaceholder")} className="w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <Input type="email" placeholder="your@email.com" className="w-full" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.email")}</label>
+                <Input type="email" placeholder={t("login.emailPlaceholder")} className="w-full" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <Input type="password" placeholder="••••••••" className="w-full" />
+                <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.password")}</label>
+                <Input type="password" placeholder={t("login.passwordPlaceholder")} className="w-full" />
               </div>
               {activeTab === "farmer" && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Farm Size (acres)</label>
-                    <Input type="number" placeholder="50" className="w-full" />
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.farmSize")}</label>
+                    <Input type="number" placeholder={t("login.farmSizePlaceholder")} className="w-full" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                    <Input type="text" placeholder="State, District" className="w-full" />
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("login.location")}</label>
+                    <Input type="text" placeholder={t("login.locationPlaceholder")} className="w-full" />
                   </div>
                 </>
               )}
@@ -123,13 +133,13 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
                 }}
                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2"
               >
-                Sign Up
+                {t("login.signupButton")}
               </Button>
               <button
                 onClick={() => setShowSignup(false)}
                 className="w-full text-emerald-600 hover:text-emerald-700 font-medium text-sm"
               >
-                Back to Login
+                {t("login.backToLogin")}
               </button>
             </div>
           )}

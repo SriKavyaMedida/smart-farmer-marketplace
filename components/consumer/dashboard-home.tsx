@@ -4,8 +4,11 @@ import { Card } from "@/components/ui/card"
 import { ShoppingCart } from "lucide-react"
 import ConsumerRecommendations from "@/components/recommendations/consumer-recommendations"
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
+import { useLanguage } from "@/lib/language-context"
 
 export default function ConsumerDashboardHome() {
+  const { t } = useLanguage()
+
   const orderByCrop = [
     { name: "Wheat", value: 45 },
     { name: "Rice", value: 30 },
@@ -24,29 +27,31 @@ export default function ConsumerDashboardHome() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold text-gray-900">Welcome back!</h2>
-        <p className="text-gray-600 mt-1">Your shopping dashboard and recommendations</p>
+        <h2 className="text-3xl font-bold text-gray-900">
+          {t("login.consumer")} {t("nav.dashboard")}
+        </h2>
+        <p className="text-gray-600 mt-1">{t("consumerAnalytics.title")}</p>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-emerald-50 to-emerald-100">
-          <p className="text-sm text-gray-600 mb-2">Total Spent</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.totalSpent")}</p>
           <p className="text-3xl font-bold text-emerald-600">₹2,22,000</p>
-          <p className="text-xs text-emerald-600 mt-2">Last 6 months</p>
+          <p className="text-xs text-emerald-600 mt-2">{t("analytics.lastSixMonths")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-blue-50 to-blue-100">
-          <p className="text-sm text-gray-600 mb-2">Total Orders</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.totalOrders")}</p>
           <p className="text-3xl font-bold text-blue-600">24</p>
-          <p className="text-xs text-blue-600 mt-2">Completed</p>
+          <p className="text-xs text-blue-600 mt-2">{t("orders.delivered")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-amber-50 to-amber-100">
-          <p className="text-sm text-gray-600 mb-2">Avg Order Value</p>
+          <p className="text-sm text-gray-600 mb-2">{t("consumerAnalytics.avgOrderValue")}</p>
           <p className="text-3xl font-bold text-amber-600">₹9,250</p>
-          <p className="text-xs text-amber-600 mt-2">Per transaction</p>
+          <p className="text-xs text-amber-600 mt-2">{t("consumerAnalytics.perTransaction")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-purple-50 to-purple-100">
-          <p className="text-sm text-gray-600 mb-2">Favorite Farmers</p>
+          <p className="text-sm text-gray-600 mb-2">{t("ratings.title")}</p>
           <p className="text-3xl font-bold text-purple-600">8</p>
           <p className="text-xs text-purple-600 mt-2">Saved</p>
         </Card>
@@ -55,7 +60,7 @@ export default function ConsumerDashboardHome() {
       {/* Charts and Recommendations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="p-6 border-0 shadow-md">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Orders by Crop</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("consumerAnalytics.ordersByCrop")}</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -82,7 +87,7 @@ export default function ConsumerDashboardHome() {
 
       {/* Recent Orders */}
       <Card className="p-6 border-0 shadow-md">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Orders</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("orders.title")}</h3>
         <div className="space-y-3">
           {recentOrders.map((order) => (
             <div
@@ -101,7 +106,7 @@ export default function ConsumerDashboardHome() {
                 <p
                   className={`text-xs font-medium ${order.status === "Delivered" ? "text-emerald-600" : "text-blue-600"}`}
                 >
-                  {order.status}
+                  {order.status === "Delivered" ? t("orders.delivered") : t("orders.inTransit")}
                 </p>
               </div>
             </div>

@@ -2,6 +2,9 @@
 
 import { useState } from "react"
 import { Leaf, LogOut, BarChart3, Plus, Users, TrendingUp, Settings, Home } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import FarmerProfile from "@/components/farmer/profile"
 import MyCrops from "@/components/farmer/my-crops"
 import AddCropForm from "@/components/farmer/add-crop-form"
@@ -16,16 +19,19 @@ interface FarmerDashboardProps {
 }
 
 export default function FarmerDashboard({ onLogout, onSwitchRole }: FarmerDashboardProps) {
+  const { language } = useLanguage()
+  const t = (key: string) => getTranslation(language, key)
+
   const [activeSection, setActiveSection] = useState<string>("home")
 
   const navItems = [
-    { id: "home", label: "Dashboard", icon: Home },
-    { id: "profile", label: "Profile", icon: Leaf },
-    { id: "crops", label: "My Crops", icon: BarChart3 },
-    { id: "add-crop", label: "Add Crop", icon: Plus },
-    { id: "price-prediction", label: "Price Prediction", icon: TrendingUp },
-    { id: "pooling", label: "Community Pooling", icon: Users },
-    { id: "analytics", label: "Sales Analytics", icon: BarChart3 },
+    { id: "home", label: t("nav.dashboard"), icon: Home },
+    { id: "profile", label: t("nav.profile"), icon: Leaf },
+    { id: "crops", label: t("nav.myCrops"), icon: BarChart3 },
+    { id: "add-crop", label: t("nav.addCrop"), icon: Plus },
+    { id: "price-prediction", label: t("nav.pricePrediction"), icon: TrendingUp },
+    { id: "pooling", label: t("nav.communityPooling"), icon: Users },
+    { id: "analytics", label: t("nav.salesAnalytics"), icon: BarChart3 },
   ]
 
   return (
@@ -37,7 +43,7 @@ export default function FarmerDashboard({ onLogout, onSwitchRole }: FarmerDashbo
             <Leaf className="w-8 h-8" />
             <h1 className="text-xl font-bold">Smart Farmer</h1>
           </div>
-          <p className="text-emerald-200 text-sm mt-2">Farmer Dashboard</p>
+          <p className="text-emerald-200 text-sm mt-2">{t("nav.farmerDashboard")}</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
@@ -59,19 +65,22 @@ export default function FarmerDashboard({ onLogout, onSwitchRole }: FarmerDashbo
         </nav>
 
         <div className="p-4 border-t border-emerald-800 space-y-2">
+          <div className="mb-3">
+            <LanguageSwitcher />
+          </div>
           <button
             onClick={onSwitchRole}
             className="w-full flex items-center gap-2 px-4 py-2 rounded-lg text-emerald-100 hover:bg-emerald-800 transition-all"
           >
             <Settings className="w-5 h-5" />
-            <span className="text-sm">Switch Role</span>
+            <span className="text-sm">{t("nav.switchRole")}</span>
           </button>
           <button
             onClick={onLogout}
             className="w-full flex items-center gap-2 px-4 py-2 rounded-lg text-emerald-100 hover:bg-red-600 transition-all"
           >
             <LogOut className="w-5 h-5" />
-            <span className="text-sm">Logout</span>
+            <span className="text-sm">{t("nav.logout")}</span>
           </button>
         </div>
       </div>

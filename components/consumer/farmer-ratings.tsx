@@ -4,8 +4,13 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Star } from "lucide-react"
 import { useState } from "react"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
 
 export default function FarmerRatings() {
+  const { language } = useLanguage()
+  const t = (key: string) => getTranslation(language, key)
+
   const [farmers, setFarmers] = useState([
     {
       id: 1,
@@ -35,11 +40,11 @@ export default function FarmerRatings() {
 
   const [selectedFarmer, setSelectedFarmer] = useState<any>(null)
   const [rating, setRating] = useState(0)
-  const [review, setReview] = useState("")
+  const [review, setReview] = useState<string>("")
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900">Farmer Ratings</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("ratings.title")}</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {farmers.map((farmer) => (
@@ -59,16 +64,18 @@ export default function FarmerRatings() {
                   ))}
                 </div>
                 <span className="font-bold text-gray-900">{farmer.rating}</span>
-                <span className="text-sm text-gray-600">({farmer.reviews} reviews)</span>
+                <span className="text-sm text-gray-600">
+                  ({farmer.reviews} {t("ratings.rating")})
+                </span>
               </div>
 
               <div>
-                <p className="text-sm text-gray-600">Crops</p>
+                <p className="text-sm text-gray-600">{t("ratings.crops")}</p>
                 <p className="font-medium text-gray-900">{farmer.crops}</p>
               </div>
 
               <div>
-                <p className="text-sm text-gray-600">Response Time</p>
+                <p className="text-sm text-gray-600">{t("ratings.responseTime")}</p>
                 <p className="font-medium text-emerald-600">{farmer.responseTime}</p>
               </div>
             </div>
@@ -77,7 +84,7 @@ export default function FarmerRatings() {
               onClick={() => setSelectedFarmer(farmer)}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2"
             >
-              Leave Review
+              {t("ratings.leaveReview")}
             </Button>
           </Card>
         ))}
@@ -87,11 +94,13 @@ export default function FarmerRatings() {
       {selectedFarmer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <Card className="w-full max-w-md p-6 border-0">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Rate {selectedFarmer.name}</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
+              {t("ratings.rate")} {selectedFarmer.name}
+            </h3>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("ratings.rating")}</label>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button key={star} onClick={() => setRating(star)} className="focus:outline-none">
@@ -106,11 +115,11 @@ export default function FarmerRatings() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Review</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("ratings.review")}</label>
                 <textarea
                   value={review}
                   onChange={(e) => setReview(e.target.value)}
-                  placeholder="Share your experience..."
+                  placeholder={t("ratings.reviewPlaceholder")}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 resize-none"
                   rows={4}
                 />
@@ -121,7 +130,7 @@ export default function FarmerRatings() {
                   onClick={() => setSelectedFarmer(null)}
                   className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-900 font-medium"
                 >
-                  Cancel
+                  {t("ratings.cancel")}
                 </Button>
                 <Button
                   onClick={() => {
@@ -131,7 +140,7 @@ export default function FarmerRatings() {
                   }}
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
                 >
-                  Submit Review
+                  {t("ratings.submitReview")}
                 </Button>
               </div>
             </div>

@@ -2,8 +2,11 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useLanguage } from "@/lib/language-context"
 
 export default function MyCrops() {
+  const { t } = useLanguage()
+
   const crops = [
     {
       id: 1,
@@ -36,7 +39,7 @@ export default function MyCrops() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900">My Crops</h2>
+      <h2 className="text-3xl font-bold text-gray-900">{t("crops.title")}</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {crops.map((crop) => (
@@ -47,35 +50,35 @@ export default function MyCrops() {
                 variant={crop.status === "Active" ? "default" : "secondary"}
                 className={crop.status === "Active" ? "bg-emerald-600" : "bg-gray-400"}
               >
-                {crop.status}
+                {crop.status === "Active" ? t("crops.active") : t("crops.soldOut")}
               </Badge>
             </div>
 
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-600">Quantity</span>
+                <span className="text-gray-600">{t("crops.quantity")}</span>
                 <span className="font-semibold text-gray-900">{crop.quantity}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Price</span>
+                <span className="text-gray-600">{t("crops.price")}</span>
                 <span className="font-semibold text-emerald-600">{crop.price}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Quality</span>
+                <span className="text-gray-600">{t("crops.quality")}</span>
                 <span className="font-semibold text-gray-900">{crop.quality}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Season</span>
+                <span className="text-gray-600">{t("crops.season")}</span>
                 <span className="font-semibold text-gray-900">{crop.season}</span>
               </div>
             </div>
 
             <div className="mt-4 pt-4 border-t border-gray-200 flex gap-2">
               <button className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-lg font-medium transition-colors">
-                Edit
+                {t("crops.edit")}
               </button>
               <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 py-2 rounded-lg font-medium transition-colors">
-                Delete
+                {t("crops.delete")}
               </button>
             </div>
           </Card>

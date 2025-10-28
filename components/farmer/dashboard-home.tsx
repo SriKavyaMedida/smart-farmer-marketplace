@@ -4,8 +4,11 @@ import { Card } from "@/components/ui/card"
 import { TrendingUp, AlertCircle, CheckCircle, Clock } from "lucide-react"
 import FarmerRecommendations from "@/components/recommendations/farmer-recommendations"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { useLanguage } from "@/lib/language-context"
 
 export default function FarmerDashboardHome() {
+  const { t } = useLanguage()
+
   const recentSalesData = [
     { month: "Jan", sales: 12000 },
     { month: "Feb", sales: 15000 },
@@ -16,45 +19,53 @@ export default function FarmerDashboardHome() {
   ]
 
   const alerts = [
-    { id: 1, type: "success", title: "Wheat Sold", message: "500 quintals sold at ₹2,100/quintal", icon: CheckCircle },
+    {
+      id: 1,
+      type: "success",
+      title: t("analytics.title"),
+      message: "500 quintals sold at ₹2,100/quintal",
+      icon: CheckCircle,
+    },
     {
       id: 2,
       type: "warning",
-      title: "Price Alert",
+      title: t("prediction.title"),
       message: "Rice prices expected to rise 12% next week",
       icon: AlertCircle,
     },
-    { id: 3, type: "info", title: "Pool Invitation", message: "Join the new cotton pooling group", icon: Clock },
+    { id: 3, type: "info", title: t("pooling.title"), message: "Join the new cotton pooling group", icon: Clock },
   ]
 
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold text-gray-900">Welcome back, Rajesh!</h2>
-        <p className="text-gray-600 mt-1">Here's your farm performance overview</p>
+        <h2 className="text-3xl font-bold text-gray-900">
+          {t("login.farmer")} {t("nav.dashboard")}
+        </h2>
+        <p className="text-gray-600 mt-1">{t("analytics.title")}</p>
       </div>
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-emerald-50 to-emerald-100">
-          <p className="text-sm text-gray-600 mb-2">Total Income</p>
+          <p className="text-sm text-gray-600 mb-2">{t("analytics.totalIncome")}</p>
           <p className="text-3xl font-bold text-emerald-600">₹2,22,000</p>
           <p className="text-xs text-emerald-600 mt-2 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3" /> +23% this month
+            <TrendingUp className="w-3 h-3" /> +23% {t("analytics.monthOverMonth")}
           </p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-blue-50 to-blue-100">
-          <p className="text-sm text-gray-600 mb-2">Active Crops</p>
+          <p className="text-sm text-gray-600 mb-2">{t("crops.title")}</p>
           <p className="text-3xl font-bold text-blue-600">3</p>
           <p className="text-xs text-blue-600 mt-2">Wheat, Rice, Cotton</p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-amber-50 to-amber-100">
-          <p className="text-sm text-gray-600 mb-2">Avg Price</p>
+          <p className="text-sm text-gray-600 mb-2">{t("analytics.averageSale")}</p>
           <p className="text-3xl font-bold text-amber-600">₹3,467</p>
-          <p className="text-xs text-amber-600 mt-2">Per quintal</p>
+          <p className="text-xs text-amber-600 mt-2">{t("addCrop.basePrice")}</p>
         </Card>
         <Card className="p-6 border-0 shadow-md bg-gradient-to-br from-purple-50 to-purple-100">
-          <p className="text-sm text-gray-600 mb-2">Pool Members</p>
+          <p className="text-sm text-gray-600 mb-2">{t("pooling.members")}</p>
           <p className="text-3xl font-bold text-purple-600">35</p>
           <p className="text-xs text-purple-600 mt-2">Across 3 pools</p>
         </Card>
@@ -63,7 +74,7 @@ export default function FarmerDashboardHome() {
       {/* Charts and Recommendations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="p-6 border-0 shadow-md lg:col-span-2">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Sales Trend</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t("analytics.monthlySalesTrend")}</h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={recentSalesData}>
               <CartesianGrid strokeDasharray="3 3" />
